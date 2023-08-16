@@ -1,0 +1,43 @@
+body{
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+h1{
+    font-family: 'Indie Flower', cursive;
+    font-size: 60px;
+    color: white;
+}
+p{
+    font-family: 'Indie Flower', cursive;
+    font-size: 32px;
+    color: white;
+}
+#gameboard{
+    width: 360px;
+    height: 360px;
+    background-color: black;
+    display: flex;
+    flex-wrap: wrap;
+}
+.square{
+    margin: 10px;
+    width: 100px;
+    height: 100px;
+    background-color: #8EE4AF;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.square:hover{
+    background-color: #4E966A;
+}
+.square:active{
+    background-color: #C6A3E3;
+}
