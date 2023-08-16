@@ -13,10 +13,35 @@
   </head>
   <body>
     <h1 id="game-title">TIC TAC TOE</h1>
-    <div id="gameboard"></div>
+    <section class="menu-screen">
+      <form id="player-names" name="player-names" action="index.html">
+        <div>
+          <label for="player1-txt">Player 1</label>
+          <input
+            type="text"
+            name="player1-txt"
+            id="player1-txt"
+            placeholder="player 1 name"
+          />
+        </div>
+        <div>
+          <label for="player2-txt">Player 2</label>
+          <input
+            type="text"
+            name="player2-txt"
+            id="player2-txt"
+            placeholder="player 2 name"
+          />
+        </div>
+        <input type="submit" name="save-btn" id="save-btn" value="Play" />
+      </form>
+    </section>
 
-    <p id="game-info"></p>
-    <div id="play-again-choices"></div>
+    <div id="play-game">
+      <div id="gameboard"></div>
+      <p id="game-info"></p>
+      <div id="play-again-choices"></div>
+    </div>
     <script src="script.js"></script>
   </body>
 </html>

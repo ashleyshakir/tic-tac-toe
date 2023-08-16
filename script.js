@@ -1,3 +1,5 @@
+// grab the game elements div
+const gameElements = document.querySelector("#play-game")
 // grab the gameboard div 
 const gameBoard = document.querySelector("#gameboard")
 // grab the yes and no play again choices div
@@ -10,11 +12,26 @@ const gameInfo = document.querySelector("#game-info")
 let turnCount = 0
 // set cross to go first - will change later when implementing who goes first
 let playerTurn = "cross"
+// grab form element and both player one and player two input fields
+const form = document.querySelector("form")
+const player1Input = document.querySelector("#player1-txt")
+const player2Input = document.querySelector("#player2-txt")
+// create global variables that will hold each players name
+let playerOne = ""
+let playerTwo = ""
 function createBoard(){
+    //cross always goes first!
+    playerTurn = "cross"
+    // set the display element for game elements to flex
+    gameElements.style.display = "flex"
+    // set the display element for the main menu form to none
+    form.style.display = "none"
+    // clears the div so yes and no buttons no longer show
     choicesDiv.innerText = ""
+    // sets the count to 0 each time a new game begins
     turnCount = 0
     // update playerTurn variable with user's name 
-    gameInfo.innerText = `${playerTurn} player's turn`
+    gameInfo.innerText = `${playerOne}'s turn`
     // loop through array creating a div with an id number for each index
     gameSquares.forEach((_square, index) => {
         const gameSqaure = document.createElement("div")
@@ -24,7 +41,20 @@ function createBoard(){
         gameSqaure.addEventListener("click",play)
     })
 }
-createBoard()
+
+
+function startGame(){
+    // set the display element for game elements to none
+    gameElements.style.display = "none"
+    form.addEventListener("submit", function(event){
+        event.preventDefault()
+        playerOne = player1Input.value
+        playerTwo = player2Input.value
+        createBoard()
+    })
+}
+
+startGame()
 
 /** 
  * display crosses and circles on gameboard when square clicked
@@ -40,18 +70,21 @@ function play(e) {
     if(playerTurn === "cross"){
         e.target.style.backgroundColor = "#C6A3E3"
         playerTurn = "circle"
+        gameInfo.innerText = `${playerTwo}'s turn`
     } else {
         e.target.style.backgroundColor = "#8EE4EF"
         playerTurn = "cross"
+        gameInfo.innerText = `${playerOne}'s turn`
     }
     // update playerTurn variable with user's name 
-    gameInfo.innerText = `${playerTurn} player's turn`
+    // gameInfo.innerText = `${playerTurn} player's turn`
     // remove event listener to prevent further clicking after square is picked
     e.target.removeEventListener("click", play)
     // call function to check if there is a winner
     checkForWinner(playerTurn)
     // increment turn count
     turnCount++
+    console.log(turnCount)
 }
 
 /* winning squares: use square id to reference each square 
@@ -84,27 +117,30 @@ function checkForWinner(playerTurn){
             setTimeout(resetGame,2000)
            // allSquares.forEach(square => square.replaceWith(square.cloneNode(true))) // this line creates a copy of each square with the same attributes but removes the event listener
             return 
-        } 
+        } else if(turnCount === 9 && !winner){
+            gameInfo.innerText = "It's a tie!"
+            allSquares.forEach(square => square.removeEventListener("click", play))
+        }
     })
-    // if the count reach 8 and there is no winner then it must be a tie!
-    if (turnCount === 8){
-        gameInfo.innerText = "It's a tie!"
-        allSquares.forEach(square => square.removeEventListener("click", play))
-    }
-
 }
+ /**
+ * reset the game based on user input 
+ */
 function resetGame() {
     gameInfo.innerText = "Wanna play again?"
     const yes = document.createElement("p")
     yes.innerText = "Yes"
-    yes.id = "play-again"
+    yes.classList.add("play-again")
     const no = document.createElement("p")
     no.innerText = "No"
-    no.id = "play-again"
+    no.classList.add("play-again")
     choicesDiv.appendChild(yes)
     choicesDiv.appendChild(no)
     yes.addEventListener("click", () => {
         gameBoard.innerText = ""
         createBoard()
+    })
+    no.addEventListener("click", () => {
+        // show main menu or maybe show leaderboard?
     })
 }
