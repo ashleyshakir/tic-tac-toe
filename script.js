@@ -22,6 +22,9 @@ const player2Input = document.querySelector("#player2-txt")
 const leaderboard = document.querySelector("#board")
 // grab the leaderboard button on the main menu 
 const leaderboardButton = document.querySelector("#leaderboard-button")
+// grab the back to menu button and call the start game function when it is clicked
+const returnButton = document.querySelector("#return-button")
+returnButton.addEventListener("click",menuScreen)
 // create objects for each player
 let playerOneObj = {
     name: "",
@@ -41,9 +44,13 @@ function createBoard(){
     gameElements.style.display = "flex"
     // set the display element for the main menu form to none
     form.style.display = "none"
-    // clears the div so yes and no buttons no longer show
+    // show the return to menu button
+    // returnButton.style.display = "flex" not sure if I want to show this here yet
+    // clear all previous game elements
     choicesDiv.innerText = ""
-    // sets the count to 0 each time a new game begins
+    gameInfo.innerText = ""
+    gameBoard.innerText = ""
+    // set the count to 0 each time a new game begins
     turnCount = 0
     // update playerTurn variable with user's name 
     gameInfo.innerText = `${playerOneObj.name}'s turn`
@@ -57,10 +64,7 @@ function createBoard(){
     })
 }
 
-/**
- * start game when players have entered their names
- */
-function startGame(){
+function menuScreen(){
     // display correct title
     title.innerText = "TIC TAC TOE"
     // set the display element for the main menu form to flex
@@ -72,6 +76,18 @@ function startGame(){
     gameElements.style.display = "none"
     // set the display element for the leaderboard to none
     leaderboard.style.display = "none"
+    // set leaderboard button to original color
+    leaderboardButton.style.backgroundColor = "#D9D9D9"
+    // hide the return to menu button
+    returnButton.style.display = "none"
+}
+
+
+/**
+ * start game when players have entered their names
+ */
+function startGame(){
+    menuScreen()
     form.addEventListener("submit", function(event){
         event.preventDefault()
         playerOneObj.name = player1Input.value
@@ -174,6 +190,14 @@ function checkForWinner(playerTurn){
             allSquares.forEach(square => square.removeEventListener("click", play))
             setTimeout(resetGame,2000)
             winnerFound = true
+            // update win count
+            if(winnerName === playerOneObj.name && winnerName !== ""){
+                playerOneObj.winCount += 1
+            } else if(winnerName === playerTwoObj.name && winnerName !== ""){
+                playerTwoObj.winCount += 1 
+            } else {
+                console.log("no winner")
+            }
            return 
         }
     })
@@ -203,8 +227,8 @@ function resetGame() {
         createBoard()
     })
     no.addEventListener("click", () => {
-        // return to main menu
-        startGame()
+        // return to menu 
+        menuScreen()
         leaderboardButton.style.backgroundColor = "#8EE4AF" // turn leaderboard div green to show it has been updated
         leaderboardButton.addEventListener("click",openLeaderboard)
     })
@@ -219,13 +243,8 @@ function openLeaderboard(){
     console.log(`player 1 is ${playerOneObj.name}`)
     console.log(`player 2 is ${playerTwoObj.name}`)
     console.log(`winner is ${winnerName}`)
-    if(winnerName === playerOneObj.name){
-        playerOneObj.winCount += 1
-    } else if(winnerName === playerTwoObj.name){
-        playerTwoObj.winCount += 1 
-    } else {
-        console.log("no winner")
-    }
+
     console.log(`${playerOneObj.name}'s win count is ${playerOneObj.winCount}`)
     console.log(`${playerTwoObj.name}'s win count is ${playerTwoObj.winCount}`)
+    returnButton.style.display = "flex"
 }
