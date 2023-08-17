@@ -181,6 +181,7 @@ function checkForWinner(playerTurn){
     if(turnCount === 9 && !winnerFound){
         gameInfo.innerText = "It's a tie!"
         allSquares.forEach(square => square.removeEventListener("click", play))
+        winnerName = ""
         setTimeout(resetGame,2000)
     }
 }
@@ -218,5 +219,13 @@ function openLeaderboard(){
     console.log(`player 1 is ${playerOneObj.name}`)
     console.log(`player 2 is ${playerTwoObj.name}`)
     console.log(`winner is ${winnerName}`)
-
+    if(winnerName === playerOneObj.name){
+        playerOneObj.winCount += 1
+    } else if(winnerName === playerTwoObj.name){
+        playerTwoObj.winCount += 1 
+    } else {
+        console.log("no winner")
+    }
+    console.log(`${playerOneObj.name}'s win count is ${playerOneObj.winCount}`)
+    console.log(`${playerTwoObj.name}'s win count is ${playerTwoObj.winCount}`)
 }
