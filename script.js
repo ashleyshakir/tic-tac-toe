@@ -22,9 +22,15 @@ const player2Input = document.querySelector("#player2-txt")
 const leaderboard = document.querySelector("#board")
 // grab the leaderboard button on the main menu 
 const leaderboardButton = document.querySelector("#leaderboard-button")
-// create global variables that will hold each players name
-let playerOne = ""
-let playerTwo = ""
+// create objects for each player
+let playerOneObj = {
+    name: "",
+    winCount: 0
+}
+let playerTwoObj ={
+    name: "",
+    winCount: 0
+}
 /**
  * intial game setup
  */
@@ -40,7 +46,7 @@ function createBoard(){
     // sets the count to 0 each time a new game begins
     turnCount = 0
     // update playerTurn variable with user's name 
-    gameInfo.innerText = `${playerOne}'s turn`
+    gameInfo.innerText = `${playerOneObj.name}'s turn`
     // loop through array creating a div with an id number for each index
     gameSquares.forEach((_square, index) => {
         const gameSqaure = document.createElement("div")
@@ -68,23 +74,23 @@ function startGame(){
     leaderboard.style.display = "none"
     form.addEventListener("submit", function(event){
         event.preventDefault()
-        playerOne = player1Input.value
-        playerTwo = player2Input.value
+        playerOneObj.name = player1Input.value
+        playerTwoObj.name = player2Input.value
         // only create the board if both players have entered their names
         // add shake effect if input box is left emoty
-        if (playerOne !== "" && playerTwo !== ""){
+        if (playerOneObj.name !== "" && playerTwoObj.name !== ""){
             createBoard()
-        } else if(playerOne === "" && playerTwo !== ""){
+        } else if(playerOneObj.name === "" && playerTwoObj.name !== ""){
             player1Input.classList.add("shake")
             setTimeout(() =>{
                 player1Input.classList.remove("shake")
             },500)
-        } else if(playerOne !== "" && playerTwo === ""){
+        } else if(playerOneObj.name !== "" && playerTwoObj.name === ""){
             player2Input.classList.add("shake")
             setTimeout(() =>{
                 player2Input.classList.remove("shake")
             },500)
-        } else if(playerOne === "" && playerTwo === ""){
+        } else if(playerOneObj.name === "" && playerTwoObj.name === ""){
             player1Input.classList.add("shake")
             player2Input.classList.add("shake")
             setTimeout(() =>{
@@ -92,6 +98,8 @@ function startGame(){
                 player2Input.classList.remove("shake")
             },500)
         }
+        console.log(`player ones name is ${playerOneObj.name}`)
+        console.log(`player twos name is ${playerTwoObj.name}`)
     })
     leaderboardButton.addEventListener("click",openLeaderboard)
 }
@@ -112,11 +120,11 @@ function play(e) {
     if(playerTurn === "cross"){
         e.target.style.backgroundColor = "#C6A3E3"
         playerTurn = "circle"
-        gameInfo.innerText = `${playerTwo}'s turn`
+        gameInfo.innerText = `${playerTwoObj.name}'s turn`
     } else {
         e.target.style.backgroundColor = "#8EE4EF"
         playerTurn = "cross"
-        gameInfo.innerText = `${playerOne}'s turn`
+        gameInfo.innerText = `${playerOneObj.name}'s turn`
     }
     // remove event listener to prevent further clicking after square is picked
     e.target.removeEventListener("click", play)
@@ -147,11 +155,11 @@ function checkForWinner(playerTurn){
     // allows for dynamic programming - each time the checkForWinner function is called - playerTurn will be equal to whatever it wasn't the last time it was called
     if(playerTurn === "cross"){
         playerTurn = "circle" 
-        winnerName = playerTwo
+        winnerName = playerTwoObj.name
         console.log(`playerTurn is ${playerTurn} and the winnerName: ${winnerName}`)
     } else {
         playerTurn = "cross"
-        winnerName = playerOne
+        winnerName = playerOneObj.name
         console.log(`playerTurn is ${playerTurn} and the winnerName: ${winnerName}`)
     }
     // track if a winner is found
@@ -207,7 +215,8 @@ function openLeaderboard(){
     // hide main menu
     form.style.display = "none"
     title.innerText = "LEADERBOARD" 
-    console.log(`player 1 is ${playerOne}`)
-    console.log(`player 2 is ${playerTwo}`)
+    console.log(`player 1 is ${playerOneObj.name}`)
+    console.log(`player 2 is ${playerTwoObj.name}`)
     console.log(`winner is ${winnerName}`)
+
 }
