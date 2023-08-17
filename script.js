@@ -16,6 +16,10 @@ let playerTurn = "cross"
 const form = document.querySelector("form")
 const player1Input = document.querySelector("#player1-txt")
 const player2Input = document.querySelector("#player2-txt")
+// grab the leaderboard
+const leaderboard = document.querySelector("#board")
+// grab the leaderboard button on the main menu 
+const leaderboardButton = document.querySelector("#leaderboard-button")
 // create global variables that will hold each players name
 let playerOne = ""
 let playerTwo = ""
@@ -23,7 +27,7 @@ let playerTwo = ""
  * intial game setup
  */
 function createBoard(){
-    //cross always goes first!
+    // cross always goes first - for now
     playerTurn = "cross"
     // set the display element for game elements to flex
     gameElements.style.display = "flex"
@@ -49,8 +53,12 @@ function createBoard(){
  * start game when players have entered their names
  */
 function startGame(){
-    // set the display element for game elements to none
+    // set the display element for the main menu form to flex
+    form.style.display = "flex"
+    // set the display element for game elements to none - this hides the gameboard/game info/play again choices
     gameElements.style.display = "none"
+    // set the display element for the leaderboard to none
+    leaderboard.style.display = "none"
     form.addEventListener("submit", function(event){
         event.preventDefault()
         playerOne = player1Input.value
@@ -78,6 +86,7 @@ function startGame(){
             },500)
         }
     })
+    leaderboardButton.addEventListener("click",openLeaderboard)
 }
 
 startGame()
@@ -102,13 +111,10 @@ function play(e) {
         playerTurn = "cross"
         gameInfo.innerText = `${playerOne}'s turn`
     }
-    // update playerTurn variable with user's name 
-    // gameInfo.innerText = `${playerTurn} player's turn`
     // remove event listener to prevent further clicking after square is picked
     e.target.removeEventListener("click", play)
     // increment turn count
     turnCount++
-    console.log(turnCount)
     // call function to check if there is a winner
     checkForWinner(playerTurn)
 }
@@ -121,7 +127,9 @@ function play(e) {
  * check the gameboard for a winner
  */
 function checkForWinner(playerTurn){
+    // grab all elements with the square class
     const allSquares = document.querySelectorAll(".square")
+    // create an array of all winning combos
     const winningCombos = [
         [0,1,2], [3,4,5], [6,7,8],
         [0,3,6], [1,4,7], [2,5,8],
@@ -137,20 +145,22 @@ function checkForWinner(playerTurn){
     let winnerFound = false
     // For each array within the winningCombos array, check if the elements in that array satisfy a specific condition using .every method
     winningCombos.forEach((array,index) => {
-         // If the square with every id in the array has a first child element with a cross class, then set crossWins to true
+         // If the square with every id in the array has a first child element with a cross class, then set winner to true
         let winner = array.every(id => allSquares[id].firstChild?.classList.contains(playerTurn))
+        // if winner is true then display who wins, remove event listener from all squares, set winnerFound to true and call resetGame function
         if (winner) {
             gameInfo.innerText = `${playerTurn} Wins!!!`
             allSquares.forEach(square => square.removeEventListener("click", play))
             setTimeout(resetGame,2000)
-           // allSquares.forEach(square => square.replaceWith(square.cloneNode(true))) // this line creates a copy of each square with the same attributes but removes the event listener
             winnerFound = true
            return 
         }
     })
+    // if turn count is 9 (every square has been clicked) and winnerFound is false then display it is a tie, remove event listener from all squares and call resetGame function
     if(turnCount === 9 && !winnerFound){
         gameInfo.innerText = "It's a tie!"
         allSquares.forEach(square => square.removeEventListener("click", play))
+        setTimeout(resetGame,2000)
     }
 }
  /**
@@ -172,6 +182,19 @@ function resetGame() {
     })
     no.addEventListener("click", () => {
         // show leaderboard with button to return to main menu
-
+        startGame()
+        leaderboardButton.style.backgroundColor = "#8EE4AF" // turn leaderboard div green to show it has been updated
+        leaderboardButton.addEventListener("click",openLeaderboard)
     })
+}
+
+function openLeaderboard(){
+    // show leaderboard div
+    leaderboard.style.display = "flex"
+    // hide main menu
+    form.style.display = "none"
+    // grab h1 header
+    const title = document.querySelector("h1")
+    title.innerText = "LEADERBOARD"
+
 }

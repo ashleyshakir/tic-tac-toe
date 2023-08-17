@@ -27,11 +27,11 @@ p{
     width: 360px;
     height: 470; 
 }
-form{
+form, #board{
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* background-color: white; */
+    background-color: white; /* will remove after testing */
     border-radius: 15px;
     width: 360px;
     height: 470px;
@@ -99,10 +99,9 @@ input[type=text]{
   }
 #menu-items{
     display: flex;
-    justify-content: flex-end;
     width: 360px;
 }
-input[type=submit], #leaderboard, #play-ai{
+input[type=submit], #leaderboard-button, #play-ai{
     width: 90px;
     padding: 12px 20px;
     margin-top: 40px;
@@ -119,19 +118,35 @@ input[type=submit]:hover{
     transform: scale(1.1);
     background-color: #8EE4AF;
 }
-#leaderboard, #play-ai{
+#leaderboard-button, #play-ai{
     width: 125px;
     padding: 12px 0;
 }
-#leaderboard:hover{
+#leaderboard-button:hover{
     transform: scale(1.1);
+}
+#play-ai{
+    margin-left: 0;
 }
 #play-ai:hover{
     transform: scale(1.1);
 }
-
+#board {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-evenly;
+}
+.board-column {
+    font-family: 'Indie Flower', cursive;
+    font-size: 48px;   
+    width: 160px;
+    height: 80px;
+    margin-top: 30px;
+    background-color: #8EE4AF;
+    border-radius: 15px;
+    text-align: center;
+}
 #play-game{
-    /* display: flex; will need to toggle display on and off */
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -173,3 +188,4 @@ input[type=submit]:hover{
     background-color: rgba(255,255,255,0.4);
     border-radius: 15px;
 }
+
