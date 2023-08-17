@@ -14,6 +14,8 @@ const gameInfo = document.querySelector("#game-info")
 let turnCount = 0
 // set cross to go first - will change later when implementing who goes first
 let playerTurn = "cross"
+// set winner name equal to an empty string
+let winnerName = ""
 // grab form element and both player one and player two input fields
 const form = document.querySelector("form")
 const player1Input = document.querySelector("#player1-txt")
@@ -22,6 +24,8 @@ const player2Input = document.querySelector("#player2-txt")
 const leaderboard = document.querySelector("#board")
 // grab the leaderboard button on the main menu 
 const leaderboardButton = document.querySelector("#leaderboard-button")
+// grab the leaderboard column elements
+const columns = document.querySelectorAll('.board-column')
 // grab the back to menu button and call the start game function when it is clicked
 const returnButton = document.querySelector("#return-button")
 returnButton.addEventListener("click",menuScreen)
@@ -34,6 +38,8 @@ let playerTwoObj ={
     name: "",
     winCount: 0
 }
+let players = [playerOneObj,playerTwoObj]
+
 /**
  * intial game setup
  */
@@ -63,7 +69,9 @@ function createBoard(){
         gameSqaure.addEventListener("click",play)
     })
 }
-
+/**
+ * display menu screen elements
+ */
 function menuScreen(){
     // display correct title
     title.innerText = "TIC TAC TOE"
@@ -82,7 +90,6 @@ function menuScreen(){
     returnButton.style.display = "none"
 }
 
-
 /**
  * start game when players have entered their names
  */
@@ -90,6 +97,10 @@ function startGame(){
     menuScreen()
     form.addEventListener("submit", function(event){
         event.preventDefault()
+        // reset player win counts 
+        playerOneObj.winCount = 0
+        playerTwoObj.winCount = 0
+        // set player names to inputed values 
         playerOneObj.name = player1Input.value
         playerTwoObj.name = player2Input.value
         // only create the board if both players have entered their names
@@ -116,6 +127,7 @@ function startGame(){
         }
         console.log(`player ones name is ${playerOneObj.name}`)
         console.log(`player twos name is ${playerTwoObj.name}`)
+        console.log(players)
     })
     leaderboardButton.addEventListener("click",openLeaderboard)
 }
@@ -157,8 +169,6 @@ function play(e) {
 /**
  * check the gameboard for a winner
  */
-// set the winner name equal to the player who just took their turn
-let winnerName = ""
 function checkForWinner(playerTurn){
     // grab all elements with the square class
     const allSquares = document.querySelectorAll(".square")
@@ -169,6 +179,7 @@ function checkForWinner(playerTurn){
         [0,4,8], [2,4,6]
     ]
     // allows for dynamic programming - each time the checkForWinner function is called - playerTurn will be equal to whatever it wasn't the last time it was called
+    // set the winner name equal to the player who just took their turn
     if(playerTurn === "cross"){
         playerTurn = "circle" 
         winnerName = playerTwoObj.name
@@ -229,10 +240,18 @@ function resetGame() {
     no.addEventListener("click", () => {
         // return to menu 
         menuScreen()
-        leaderboardButton.style.backgroundColor = "#8EE4AF" // turn leaderboard div green to show it has been updated
+        // turn leaderboard div green to show it has been updated 
+        if (winnerName !== ""){
+            leaderboardButton.style.backgroundColor = "#8EE4AF" 
+        }
         leaderboardButton.addEventListener("click",openLeaderboard)
+        // update leader board with player stats
+        updateLeaderboard()
     })
 }
+/**
+ * display leaderboard elements
+ */
 
 function openLeaderboard(){
     // show leaderboard div
@@ -243,8 +262,31 @@ function openLeaderboard(){
     console.log(`player 1 is ${playerOneObj.name}`)
     console.log(`player 2 is ${playerTwoObj.name}`)
     console.log(`winner is ${winnerName}`)
-
     console.log(`${playerOneObj.name}'s win count is ${playerOneObj.winCount}`)
     console.log(`${playerTwoObj.name}'s win count is ${playerTwoObj.winCount}`)
     returnButton.style.display = "flex"
+}
+function updateLeaderboard(){
+    if(columns[0].childElementCount !== 6){ // this will control how many names can be added to the leaderboard
+        players.forEach(player => {
+            let playerName = document.createElement("p")
+            playerName.classList.add("name")
+            columns[0].appendChild(playerName)
+            playerName.innerText = player.name
+            let playerWinCount = document.createElement("p")
+            playerWinCount.classList.add("win-count")
+            columns[1].appendChild(playerWinCount)
+            playerWinCount.innerText = player.winCount
+        })
+    } else {
+        const allNames = document.querySelectorAll(".name")
+        const allCounts = document.querySelectorAll(".win-count")
+        let winStreaks = []
+        allCounts.forEach(count => {
+            const win = parseInt(count.innerText)
+            winStreaks.push(win)
+        })
+        console.log(winStreaks)
+    }
+
 }
