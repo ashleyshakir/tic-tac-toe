@@ -19,6 +19,9 @@ const player2Input = document.querySelector("#player2-txt")
 // create global variables that will hold each players name
 let playerOne = ""
 let playerTwo = ""
+/**
+ * intial game setup
+ */
 function createBoard(){
     //cross always goes first!
     playerTurn = "cross"
@@ -42,7 +45,9 @@ function createBoard(){
     })
 }
 
-
+/**
+ * start game when players have entered their names
+ */
 function startGame(){
     // set the display element for game elements to none
     gameElements.style.display = "none"
@@ -50,7 +55,10 @@ function startGame(){
         event.preventDefault()
         playerOne = player1Input.value
         playerTwo = player2Input.value
-        createBoard()
+        // only create the board if both players have entered their names
+        if (playerOne !== "" && playerTwo !== ""){
+            createBoard()
+        }
     })
 }
 

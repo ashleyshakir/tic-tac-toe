@@ -15,8 +15,8 @@
     <h1 id="game-title">TIC TAC TOE</h1>
     <section class="menu-screen">
       <form id="player-names" name="player-names" action="index.html">
-        <div>
-          <label for="player1-txt">Player 1</label>
+        <div class="player">
+          <label id="player-one-label" for="player1-txt">Player 1</label>
           <input
             type="text"
             name="player1-txt"
@@ -24,8 +24,8 @@
             placeholder="player 1 name"
           />
         </div>
-        <div>
-          <label for="player2-txt">Player 2</label>
+        <div class="player">
+          <label id="player-two-label" for="player2-txt">Player 2</label>
           <input
             type="text"
             name="player2-txt"
@@ -35,6 +35,7 @@
         </div>
         <input type="submit" name="save-btn" id="save-btn" value="Play" />
       </form>
+      <button>Leaderboard</button>
     </section>
 
     <div id="play-game">
