@@ -56,8 +56,26 @@ function startGame(){
         playerOne = player1Input.value
         playerTwo = player2Input.value
         // only create the board if both players have entered their names
+        // add shake effect if input box is left emoty
         if (playerOne !== "" && playerTwo !== ""){
             createBoard()
+        } else if(playerOne === "" && playerTwo !== ""){
+            player1Input.classList.add("shake")
+            setTimeout(() =>{
+                player1Input.classList.remove("shake")
+            },500)
+        } else if(playerOne !== "" && playerTwo === ""){
+            player2Input.classList.add("shake")
+            setTimeout(() =>{
+                player2Input.classList.remove("shake")
+            },500)
+        } else if(playerOne === "" && playerTwo === ""){
+            player1Input.classList.add("shake")
+            player2Input.classList.add("shake")
+            setTimeout(() =>{
+                player1Input.classList.remove("shake")
+                player2Input.classList.remove("shake")
+            },500)
         }
     })
 }
@@ -70,7 +88,7 @@ startGame()
 function play(e) {
     const display = document.createElement("img")
     display.classList.add(playerTurn)
-    display.src = `images/${playerTurn}.jpeg`
+    display.src = `images/${playerTurn}-black.jpeg`
     display.alt = playerTurn
     e.target.appendChild(display)
     // if it is the cross player's turn then change the square color to purple and switch to circle's turn
@@ -88,11 +106,11 @@ function play(e) {
     // gameInfo.innerText = `${playerTurn} player's turn`
     // remove event listener to prevent further clicking after square is picked
     e.target.removeEventListener("click", play)
-    // call function to check if there is a winner
-    checkForWinner(playerTurn)
     // increment turn count
     turnCount++
     console.log(turnCount)
+    // call function to check if there is a winner
+    checkForWinner(playerTurn)
 }
 
 /* winning squares: use square id to reference each square 
@@ -115,6 +133,8 @@ function checkForWinner(playerTurn){
     } else {
         playerTurn = "cross"
     }
+    // track if a winner is found
+    let winnerFound = false
     // For each array within the winningCombos array, check if the elements in that array satisfy a specific condition using .every method
     winningCombos.forEach((array,index) => {
          // If the square with every id in the array has a first child element with a cross class, then set crossWins to true
@@ -124,12 +144,14 @@ function checkForWinner(playerTurn){
             allSquares.forEach(square => square.removeEventListener("click", play))
             setTimeout(resetGame,2000)
            // allSquares.forEach(square => square.replaceWith(square.cloneNode(true))) // this line creates a copy of each square with the same attributes but removes the event listener
-            return 
-        } else if(turnCount === 9 && !winner){
-            gameInfo.innerText = "It's a tie!"
-            allSquares.forEach(square => square.removeEventListener("click", play))
+            winnerFound = true
+           return 
         }
     })
+    if(turnCount === 9 && !winnerFound){
+        gameInfo.innerText = "It's a tie!"
+        allSquares.forEach(square => square.removeEventListener("click", play))
+    }
 }
  /**
  * reset the game based on user input 
@@ -149,6 +171,7 @@ function resetGame() {
         createBoard()
     })
     no.addEventListener("click", () => {
-        // show main menu or maybe show leaderboard?
+        // show leaderboard with button to return to main menu
+
     })
 }

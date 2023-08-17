@@ -68,6 +68,23 @@ label{
     background-position: 10px 10px;
     background-repeat: no-repeat;
 }
+/* shake code from chatGPT https://chat.openai.com/share/da70cc45-ac3c-4f67-9254-c775e06dce80 */
+@keyframes shake {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+      transform: translateX(-10px);
+    }
+    20%, 40%, 60%, 80% {
+      transform: translateX(10px);
+    }
+  }
+  
+  .shake {
+    animation: shake 0.5s linear;
+  }
+  
 input[type=text]{
     width: 100%;
     padding: 12px 20px;
