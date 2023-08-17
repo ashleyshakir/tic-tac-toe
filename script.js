@@ -1,3 +1,5 @@
+// grab h1 header
+const title = document.querySelector("h1")
 // grab the game elements div
 const gameElements = document.querySelector("#play-game")
 // grab the gameboard div 
@@ -53,8 +55,13 @@ function createBoard(){
  * start game when players have entered their names
  */
 function startGame(){
+    // display correct title
+    title.innerText = "TIC TAC TOE"
     // set the display element for the main menu form to flex
     form.style.display = "flex"
+    // clear the input fields
+    player1Input.value = ""
+    player2Input.value = ""
     // set the display element for game elements to none - this hides the gameboard/game info/play again choices
     gameElements.style.display = "none"
     // set the display element for the leaderboard to none
@@ -126,6 +133,8 @@ function play(e) {
 /**
  * check the gameboard for a winner
  */
+// set the winner name equal to the player who just took their turn
+let winnerName = ""
 function checkForWinner(playerTurn){
     // grab all elements with the square class
     const allSquares = document.querySelectorAll(".square")
@@ -135,11 +144,15 @@ function checkForWinner(playerTurn){
         [0,3,6], [1,4,7], [2,5,8],
         [0,4,8], [2,4,6]
     ]
-    // allows for dynamic programming
+    // allows for dynamic programming - each time the checkForWinner function is called - playerTurn will be equal to whatever it wasn't the last time it was called
     if(playerTurn === "cross"){
-        playerTurn = "circle"
+        playerTurn = "circle" 
+        winnerName = playerTwo
+        console.log(`playerTurn is ${playerTurn} and the winnerName: ${winnerName}`)
     } else {
         playerTurn = "cross"
+        winnerName = playerOne
+        console.log(`playerTurn is ${playerTurn} and the winnerName: ${winnerName}`)
     }
     // track if a winner is found
     let winnerFound = false
@@ -149,7 +162,7 @@ function checkForWinner(playerTurn){
         let winner = array.every(id => allSquares[id].firstChild?.classList.contains(playerTurn))
         // if winner is true then display who wins, remove event listener from all squares, set winnerFound to true and call resetGame function
         if (winner) {
-            gameInfo.innerText = `${playerTurn} Wins!!!`
+            gameInfo.innerText = `${winnerName} Wins!!!`
             allSquares.forEach(square => square.removeEventListener("click", play))
             setTimeout(resetGame,2000)
             winnerFound = true
@@ -181,7 +194,7 @@ function resetGame() {
         createBoard()
     })
     no.addEventListener("click", () => {
-        // show leaderboard with button to return to main menu
+        // return to main menu
         startGame()
         leaderboardButton.style.backgroundColor = "#8EE4AF" // turn leaderboard div green to show it has been updated
         leaderboardButton.addEventListener("click",openLeaderboard)
@@ -193,8 +206,8 @@ function openLeaderboard(){
     leaderboard.style.display = "flex"
     // hide main menu
     form.style.display = "none"
-    // grab h1 header
-    const title = document.querySelector("h1")
-    title.innerText = "LEADERBOARD"
-
+    title.innerText = "LEADERBOARD" 
+    console.log(`player 1 is ${playerOne}`)
+    console.log(`player 2 is ${playerTwo}`)
+    console.log(`winner is ${winnerName}`)
 }
