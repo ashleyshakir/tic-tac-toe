@@ -38,7 +38,8 @@ let playerTwoObj ={
     name: "",
     winCount: 0
 }
-let players = [playerOneObj,playerTwoObj]
+// create an array that will hold player names and player win counts for displaying on leaderboard
+let playerStats = [[],[]]
 
 /**
  * intial game setup
@@ -107,6 +108,14 @@ function startGame(){
         // add shake effect if input box is left emoty
         if (playerOneObj.name !== "" && playerTwoObj.name !== ""){
             createBoard()
+            if (!playerStats[0].includes(playerOneObj.name)){
+                playerStats[0].push(playerOneObj.name)
+                playerStats[1].push(playerOneObj.winCount)
+            }
+            if (!playerStats[0].includes(playerTwoObj.name)){
+                playerStats[0].push(playerTwoObj.name)
+                playerStats[1].push(playerTwoObj.winCount)
+            }
         } else if(playerOneObj.name === "" && playerTwoObj.name !== ""){
             player1Input.classList.add("shake")
             setTimeout(() =>{
@@ -127,7 +136,7 @@ function startGame(){
         }
         console.log(`player ones name is ${playerOneObj.name}`)
         console.log(`player twos name is ${playerTwoObj.name}`)
-        console.log(players)
+        console.log(`player stats array: ${playerStats[0]} and ${playerStats[1]}`)
     })
     leaderboardButton.addEventListener("click",openLeaderboard)
 }
@@ -202,10 +211,13 @@ function checkForWinner(playerTurn){
             setTimeout(resetGame,2000)
             winnerFound = true
             // update win count
+            let playerIndex = playerStats[0].indexOf(winnerName)
             if(winnerName === playerOneObj.name && winnerName !== ""){
                 playerOneObj.winCount += 1
+                playerStats[1][playerIndex] += 1
             } else if(winnerName === playerTwoObj.name && winnerName !== ""){
                 playerTwoObj.winCount += 1 
+                playerStats[1][playerIndex] += 1
             } else {
                 console.log("no winner")
             }
@@ -252,7 +264,6 @@ function resetGame() {
 /**
  * display leaderboard elements
  */
-
 function openLeaderboard(){
     // show leaderboard div
     leaderboard.style.display = "flex"
@@ -266,27 +277,31 @@ function openLeaderboard(){
     console.log(`${playerTwoObj.name}'s win count is ${playerTwoObj.winCount}`)
     returnButton.style.display = "flex"
 }
+/**
+ * update leaderboard elements
+ */
 function updateLeaderboard(){
-    if(columns[0].childElementCount !== 6){ // this will control how many names can be added to the leaderboard
-        players.forEach(player => {
+    // clears the board 
+    const allNames = document.querySelectorAll(".name")
+    const allCounts = document.querySelectorAll(".win-count")
+    allNames.forEach(name => {
+        name.remove()
+    })
+    allCounts.forEach(count => {
+        count.remove()
+    })
+    // only display the top 5 player stats (the first 4 indexes of the playerStats array)
+    for (let i = 0; i <= 4; i++){
+        if (playerStats[0][i]){
             let playerName = document.createElement("p")
             playerName.classList.add("name")
             columns[0].appendChild(playerName)
-            playerName.innerText = player.name
+            playerName.innerText = playerStats[0][i]
             let playerWinCount = document.createElement("p")
             playerWinCount.classList.add("win-count")
             columns[1].appendChild(playerWinCount)
-            playerWinCount.innerText = player.winCount
-        })
-    } else {
-        const allNames = document.querySelectorAll(".name")
-        const allCounts = document.querySelectorAll(".win-count")
-        let winStreaks = []
-        allCounts.forEach(count => {
-            const win = parseInt(count.innerText)
-            winStreaks.push(win)
-        })
-        console.log(winStreaks)
+            playerWinCount.innerText = playerStats[1][i]
+        }
     }
-
-}
+    
+}   
