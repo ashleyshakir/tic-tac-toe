@@ -137,6 +137,13 @@ function startGame(){
             },500)
         }
     })
+    // retrieve top players from localStorage and display on board
+    const savedTopPlayers = localStorage.getItem("topPlayers")
+    if(savedTopPlayers){
+        const parsedTopPlayers = JSON.parse(savedTopPlayers)
+        playerStats = parsedTopPlayers
+        updateLeaderboard()
+    }
 }
 startGame()
 
@@ -263,13 +270,6 @@ function openLeaderboard(){
     form.style.display = "none"
     title.innerText = "LEADERBOARD" 
     returnButton.style.display = "flex"
-    // retrieve top players from localStorage and display on board
-    const savedTopPlayers = localStorage.getItem("topPlayers")
-    if(savedTopPlayers){
-        const parsedTopPlayers = JSON.parse(savedTopPlayers)
-        playerStats = parsedTopPlayers
-        updateLeaderboard()
-    }
 }
 /**
  * update leaderboard elements
