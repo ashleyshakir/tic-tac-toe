@@ -3,9 +3,10 @@ Your classic tic tac toe game! Player one plays X and player 2 plays O. Each pla
 ## Technologies Used 
 * Programming Languages: HTML, CSS, JavaScript
 * Developer Tools: VS Code, Git, Google Chrome Dev Tools
-* Wireframing: [Figma](https://bit.ly/3YMTP5y)
+* Wireframing and Flowchart: [Figma](https://www.figma.com)
 * Images: [flaticon](https://www.flaticon.com/)
-## User Stories
+## User Stories and Wireframes
+[Wireframes](https://bit.ly/3YMTP5y)
 ### MVP (bronze)
 * As a user, I should be able to start a new tic tac toe game
 * As a user, I should be able to click on a square to add X first and then O, and so on
