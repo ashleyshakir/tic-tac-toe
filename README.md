@@ -2,6 +2,12 @@
 
 Your classic tic tac toe game! Player one plays X and player 2 plays O. Each player takes turns placing their marks on a grid of three-by-three squares. If a player gets three marks in a row horizontally, vertically, or diagonally, then that player wins the game!
 
+## Screenshots
+
+| Menu Screen                                                       | Gameboard                                                      | Leaderboard                                                       |
+| ----------------------------------------------------------------- | -------------------------------------------------------------- | ----------------------------------------------------------------- |
+| <img src="images/menu-screen.jpeg" alt="Menu Screen" width="300"> | <img src="images/gameboard.jpeg" alt="Game Board" width="300"> | <img src="images/leaderboard.jpeg" alt="Leaderboard" width="300"> |
+
 ## Technologies Used
 
 - Programming Languages: HTML, CSS, JavaScript
