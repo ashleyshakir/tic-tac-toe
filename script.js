@@ -89,6 +89,8 @@ function menuScreen(){
     leaderboardButton.style.backgroundColor = "#D9D9D9"
     // hide the return to menu button
     returnButton.style.display = "none"
+    // add event listener to the leaderboard button
+    leaderboardButton.addEventListener("click",openLeaderboard)
 }
 
 /**
@@ -134,13 +136,8 @@ function startGame(){
                 player2Input.classList.remove("shake")
             },500)
         }
-        console.log(`player ones name is ${playerOneObj.name}`)
-        console.log(`player twos name is ${playerTwoObj.name}`)
-        console.log(`player stats array: ${playerStats[0]} and ${playerStats[1]}`)
     })
-    leaderboardButton.addEventListener("click",openLeaderboard)
 }
-
 startGame()
 
 /** 
@@ -192,16 +189,14 @@ function checkForWinner(playerTurn){
     if(playerTurn === "cross"){
         playerTurn = "circle" 
         winnerName = playerTwoObj.name
-        console.log(`playerTurn is ${playerTurn} and the winnerName: ${winnerName}`)
     } else {
         playerTurn = "cross"
         winnerName = playerOneObj.name
-        console.log(`playerTurn is ${playerTurn} and the winnerName: ${winnerName}`)
     }
     // track if a winner is found
     let winnerFound = false
     // For each array within the winningCombos array, check if the elements in that array satisfy a specific condition using .every method
-    winningCombos.forEach((array,index) => {
+    winningCombos.forEach(array => {
          // If the square with every id in the array has a first child element with a cross class, then set winner to true
         let winner = array.every(id => allSquares[id].firstChild?.classList.contains(playerTurn))
         // if winner is true then display who wins, remove event listener from all squares, set winnerFound to true and call resetGame function
@@ -213,15 +208,13 @@ function checkForWinner(playerTurn){
             // update win count
             let playerIndex = playerStats[0].indexOf(winnerName)
             if(winnerName === playerOneObj.name && winnerName !== ""){
-                playerOneObj.winCount += 1
+                // playerOneObj.winCount += 1
                 playerStats[1][playerIndex] += 1
             } else if(winnerName === playerTwoObj.name && winnerName !== ""){
-                playerTwoObj.winCount += 1 
+                // playerTwoObj.winCount += 1 
                 playerStats[1][playerIndex] += 1
-            } else {
-                console.log("no winner")
-            }
-           return 
+            } 
+            return 
         }
     })
     // if turn count is 9 (every square has been clicked) and winnerFound is false then display it is a tie, remove event listener from all squares and call resetGame function
@@ -256,7 +249,6 @@ function resetGame() {
         if (winnerName !== ""){
             leaderboardButton.style.backgroundColor = "#8EE4AF" 
         }
-        leaderboardButton.addEventListener("click",openLeaderboard)
         // update leader board with player stats
         updateLeaderboard()
     })
@@ -270,11 +262,6 @@ function openLeaderboard(){
     // hide main menu
     form.style.display = "none"
     title.innerText = "LEADERBOARD" 
-    console.log(`player 1 is ${playerOneObj.name}`)
-    console.log(`player 2 is ${playerTwoObj.name}`)
-    console.log(`winner is ${winnerName}`)
-    console.log(`${playerOneObj.name}'s win count is ${playerOneObj.winCount}`)
-    console.log(`${playerTwoObj.name}'s win count is ${playerTwoObj.winCount}`)
     returnButton.style.display = "flex"
 }
 /**
@@ -291,7 +278,7 @@ function updateLeaderboard(){
         count.remove()
     })
     // map over the winCount array and save an array of indices
-    let playerIndices = playerStats[1].map((_winCount, index) => index);
+    let playerIndices = playerStats[1].map((_winCount, index) => index)
     // sort playerIndices array by comparing the values of the playerStats winCount array 
     playerIndices.sort((a,b)=> playerStats[1][b] - playerStats[1][a])
     // create variable to specify max number of players to display
