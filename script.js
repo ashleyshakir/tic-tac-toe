@@ -263,12 +263,19 @@ function openLeaderboard(){
     form.style.display = "none"
     title.innerText = "LEADERBOARD" 
     returnButton.style.display = "flex"
+    // retrieve top players from localStorage and display on board
+    const savedTopPlayers = localStorage.getItem("topPlayers")
+    if(savedTopPlayers){
+        const parsedTopPlayers = JSON.parse(savedTopPlayers)
+        playerStats = parsedTopPlayers
+        updateLeaderboard()
+    }
 }
 /**
  * update leaderboard elements
  */
 function updateLeaderboard(){
-    // clears the board 
+    // // clears the board 
     const allNames = document.querySelectorAll(".name")
     const allCounts = document.querySelectorAll(".win-count")
     allNames.forEach(name => {
@@ -297,4 +304,8 @@ function updateLeaderboard(){
         columns[1].appendChild(playerWinCount)
         playerWinCount.innerText = playerStats[1][currentIndex]
     }
+    // save to local storage
+    localStorage.setItem("topPlayers",JSON.stringify(playerStats))
 }   
+
+
