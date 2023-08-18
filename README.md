@@ -6,8 +6,11 @@ Your classic tic tac toe game! Player one plays X and player 2 plays O. Each pla
 
 - Programming Languages: HTML, CSS, JavaScript
 - Developer Tools: VS Code, Git, Google Chrome Dev Tools
-- Wireframing and Flowchart: [Figma](https://www.figma.com)
-- Images: [flaticon](https://www.flaticon.com/)
+- External Resources
+
+* - Wireframing and Flowchart: [Figma](https://www.figma.com)
+* - Icons: [flaticon](https://www.flaticon.com/)
+* - Fonts: [Google Fonts](https://fonts.google.com/)
 
 ## User Stories and Wireframes
 
@@ -36,6 +39,10 @@ Your classic tic tac toe game! Player one plays X and player 2 plays O. Each pla
 - As a user, I can refresh or exit the page and still see the leaderboard stats when reopening the game
 
 ## Approach
+
+### Control Flow
+
+![Flowchart](images/flowchart.png)
 
 ### MVP Functionality
 
