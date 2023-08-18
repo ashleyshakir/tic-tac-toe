@@ -290,18 +290,24 @@ function updateLeaderboard(){
     allCounts.forEach(count => {
         count.remove()
     })
-    // only display the top 5 player stats (the first 4 indexes of the playerStats array)
-    for (let i = 0; i <= 4; i++){
-        if (playerStats[0][i]){
-            let playerName = document.createElement("p")
-            playerName.classList.add("name")
-            columns[0].appendChild(playerName)
-            playerName.innerText = playerStats[0][i]
-            let playerWinCount = document.createElement("p")
-            playerWinCount.classList.add("win-count")
-            columns[1].appendChild(playerWinCount)
-            playerWinCount.innerText = playerStats[1][i]
-        }
+    // map over the winCount array and save an array of indices
+    let playerIndices = playerStats[1].map((_winCount, index) => index);
+    // sort playerIndices array by comparing the values of the playerStats winCount array 
+    playerIndices.sort((a,b)=> playerStats[1][b] - playerStats[1][a])
+    // create variable to specify max number of players to display
+    const topFive = 5
+    // calculate the minimum value between 5 and the length of the playerIndices array to make sure
+    // the loop doesn't iterate beyond the available number of players or the top 5
+    for (let i = 0; i < Math.min(topFive,playerIndices.length); i++){
+        // save the current player index
+        const currentIndex = playerIndices[i]
+        let playerName = document.createElement("p")
+        playerName.classList.add("name")
+        columns[0].appendChild(playerName)
+        playerName.innerText = playerStats[0][currentIndex]
+        let playerWinCount = document.createElement("p")
+        playerWinCount.classList.add("win-count")
+        columns[1].appendChild(playerWinCount)
+        playerWinCount.innerText = playerStats[1][currentIndex]
     }
-    
 }   
