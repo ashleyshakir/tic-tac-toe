@@ -29,6 +29,12 @@ const columns = document.querySelectorAll('.board-column')
 // grab the back to menu button and call the start game function when it is clicked
 const returnButton = document.querySelector("#return-button")
 returnButton.addEventListener("click",menuScreen)
+// grab the single player button 
+const singlePlayerButton = document.querySelector("#play-ai")
+// set single mode to false unless single player button is clicked
+let singleMode = false
+// track if a winner is found
+let winnerFound = false
 // create objects for each player
 let playerOneObj = {
     name: "",
@@ -100,6 +106,7 @@ function startGame(){
     menuScreen()
     form.addEventListener("submit", function(event){
         event.preventDefault()
+        singleMode = false
         // reset player win counts 
         playerOneObj.winCount = 0
         playerTwoObj.winCount = 0
@@ -134,6 +141,19 @@ function startGame(){
             setTimeout(() =>{
                 player1Input.classList.remove("shake")
                 player2Input.classList.remove("shake")
+            },500)
+        }
+    })
+    singlePlayerButton.addEventListener("click",function(){
+        singleMode = true
+        playerOneObj.name = player1Input.value
+        playerTwoObj.name = "Computer"
+        if (playerOneObj.name !== ""){
+            createBoard()
+        } else if(playerOneObj.name === ""){
+            player1Input.classList.add("shake")
+            setTimeout(()=>{
+                player1Input.classList.remove("shake")
             },500)
         }
     })
@@ -173,6 +193,27 @@ function play(e) {
     turnCount++
     // call function to check if there is a winner
     checkForWinner(playerTurn)
+    // functionality for single player mode
+    if (playerTurn === "circle" && singleMode === true && !winnerFound){
+        const getSquares = document.querySelectorAll(".square")
+        const emptySquares = Array.from(getSquares).filter(square => square.childElementCount === 0)
+        const computerPlay = emptySquares[Math.floor(Math.random()*emptySquares.length)]
+        playerTurn = "circle"
+        gameInfo.innerText = `${playerTwoObj.name}'s turn`
+        setTimeout(function(){
+            const display = document.createElement("img")
+            display.classList.add(playerTurn)
+            display.src = `images/${playerTurn}-black.jpeg`
+            display.alt = playerTurn
+            computerPlay.appendChild(display)
+            computerPlay.style.backgroundColor = "#8EE4EF"
+            computerPlay.removeEventListener("click", play)
+            playerTurn = "cross"
+            gameInfo.innerText = `${playerOneObj.name}'s turn`
+            turnCount++
+            checkForWinner(playerTurn)
+        },1000)
+    }
 }
 
 /* winning squares: use square id to reference each square 
@@ -182,6 +223,7 @@ function play(e) {
 /**
  * check the gameboard for a winner
  */
+
 function checkForWinner(playerTurn){
     // grab all elements with the square class
     const allSquares = document.querySelectorAll(".square")
@@ -200,8 +242,7 @@ function checkForWinner(playerTurn){
         playerTurn = "cross"
         winnerName = playerOneObj.name
     }
-    // track if a winner is found
-    let winnerFound = false
+
     // For each array within the winningCombos array, check if the elements in that array satisfy a specific condition using .every method
     winningCombos.forEach(array => {
          // If the square with every id in the array has a first child element with a cross class, then set winner to true
@@ -215,10 +256,8 @@ function checkForWinner(playerTurn){
             // update win count
             let playerIndex = playerStats[0].indexOf(winnerName)
             if(winnerName === playerOneObj.name && winnerName !== ""){
-                // playerOneObj.winCount += 1
                 playerStats[1][playerIndex] += 1
             } else if(winnerName === playerTwoObj.name && winnerName !== ""){
-                // playerTwoObj.winCount += 1 
                 playerStats[1][playerIndex] += 1
             } 
             return 
@@ -247,11 +286,13 @@ function resetGame() {
     choicesDiv.appendChild(no)
     yes.addEventListener("click", () => {
         gameBoard.innerText = ""
+        winnerFound = false
         createBoard()
     })
     no.addEventListener("click", () => {
         // return to menu 
         menuScreen()
+        winnerFound = false
         // turn leaderboard div green to show it has been updated 
         if (winnerName !== ""){
             leaderboardButton.style.backgroundColor = "#8EE4AF" 
@@ -307,5 +348,4 @@ function updateLeaderboard(){
     // save to local storage
     localStorage.setItem("topPlayers",JSON.stringify(playerStats))
 }   
-
 

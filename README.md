@@ -14,9 +14,9 @@ Your classic tic tac toe game! Player one plays X and player 2 plays O. Each pla
 - Developer Tools: VS Code, Git, Google Chrome Dev Tools
 - External Resources
 
-* - Wireframing and Flowchart: [Figma](https://www.figma.com)
-* - Icons: [flaticon](https://www.flaticon.com/)
-* - Fonts: [Google Fonts](https://fonts.google.com/)
+  - Wireframing and Flowchart: [Figma](https://www.figma.com)
+  - Icons: [flaticon](https://www.flaticon.com/)
+  - Fonts: [Google Fonts](https://fonts.google.com/)
 
 ## User Stories and Wireframes
 
@@ -265,6 +265,9 @@ if(savedTopPlayers){
 }
 ```
 
+## Acknowledgments
+
 ## Future Steps
 
-AI integration
+- AI integration
+- Responsive
