@@ -51,6 +51,8 @@ let playerStats = [[],[]]
  * intial game setup
  */
 function createBoard(){
+    let welcomeSound = new Audio("sounds/welcome.mp3")
+    welcomeSound.play()
     // cross always goes first - for now
     playerTurn = "cross"
     // set the display element for game elements to flex
@@ -72,6 +74,7 @@ function createBoard(){
         const gameSqaure = document.createElement("div")
         gameSqaure.id = index
         gameSqaure.classList.add("square")
+        gameSqaure.classList.add("fall-animation")
         gameBoard.appendChild(gameSqaure)
         gameSqaure.addEventListener("click",play)
     })
@@ -104,6 +107,7 @@ function menuScreen(){
  * start game when players have entered their names
  */
 function startGame(){
+    let errorSound = new Audio("sounds/error.mp3")
     menuScreen()
     form.addEventListener("submit", function(event){
         event.preventDefault()
@@ -128,17 +132,20 @@ function startGame(){
             }
         } else if(playerOneObj.name === "" && playerTwoObj.name !== ""){
             player1Input.classList.add("shake")
+            errorSound.play()
             setTimeout(() =>{
                 player1Input.classList.remove("shake")
             },500)
         } else if(playerOneObj.name !== "" && playerTwoObj.name === ""){
             player2Input.classList.add("shake")
+            errorSound.play()
             setTimeout(() =>{
                 player2Input.classList.remove("shake")
             },500)
         } else if(playerOneObj.name === "" && playerTwoObj.name === ""){
             player1Input.classList.add("shake")
             player2Input.classList.add("shake")
+            errorSound.play()
             setTimeout(() =>{
                 player1Input.classList.remove("shake")
                 player2Input.classList.remove("shake")
@@ -148,11 +155,17 @@ function startGame(){
     singlePlayerButton.addEventListener("click",function(){
         singleMode = true
         playerOneObj.name = player1Input.value
+        playerOneObj.winCount = 0
         playerTwoObj.name = "Computer"
         if (playerOneObj.name !== ""){
             createBoard()
+            if (!playerStats[0].includes(playerOneObj.name)){
+                playerStats[0].push(playerOneObj.name)
+                playerStats[1].push(playerOneObj.winCount)
+            }
         } else if(playerOneObj.name === ""){
             player1Input.classList.add("shake")
+            errorSound.play()
             setTimeout(()=>{
                 player1Input.classList.remove("shake")
             },500)
@@ -172,6 +185,9 @@ startGame()
  * display crosses and circles on gameboard when square clicked
 */
 function play(e) {
+    let clickSound = new Audio("sounds/click.mp3")
+    clickSound.volume = 0.5
+    clickSound.play()
     const display = document.createElement("img")
     display.classList.add(playerTurn)
     display.src = `images/${playerTurn}-black.jpeg`
@@ -207,6 +223,8 @@ function play(e) {
             display.src = `images/${playerTurn}-black.jpeg`
             display.alt = playerTurn
             computerPlay.appendChild(display)
+            let computerClick = new Audio("sounds/computerClick.mp3")
+            computerClick.play()
             computerPlay.style.backgroundColor = "#8EE4EF"
             computerPlay.removeEventListener("click", play)
             playerTurn = "cross"
@@ -226,6 +244,7 @@ function play(e) {
  */
 
 function checkForWinner(playerTurn){
+    let winSound = new Audio("sounds/win.mp3")
     // grab all elements with the square class
     const allSquares = document.querySelectorAll(".square")
     // create an array of all winning combos
@@ -250,6 +269,7 @@ function checkForWinner(playerTurn){
         let winner = array.every(id => allSquares[id].firstChild?.classList.contains(playerTurn))
         // if winner is true then display who wins, remove event listener from all squares, set winnerFound to true and call resetGame function
         if (winner) {
+            winSound.play()
             gameInfo.innerText = `${winnerName} Wins!!!`
             allSquares.forEach(square => square.removeEventListener("click", play))
             setTimeout(resetGame,2000)
@@ -266,6 +286,8 @@ function checkForWinner(playerTurn){
     })
     // if turn count is 9 (every square has been clicked) and winnerFound is false then display it is a tie, remove event listener from all squares and call resetGame function
     if (turnCount === 9 && !winnerFound){
+        let tieSound = new Audio("sounds/tie.mp3")
+        tieSound.play()
         gameInfo.innerText = "It's a tie!"
         allSquares.forEach(square => square.removeEventListener("click", play))
         winnerName = ""
@@ -297,6 +319,8 @@ function resetGame() {
         // turn leaderboard div green to show it has been updated 
         if (winnerName !== ""){
             leaderboardButton.style.backgroundColor = "#8EE4AF" 
+            let leaderboardSound = new Audio("sounds/leaderboard.mp3")
+            leaderboardSound.play()
         }
         // update leader board with player stats
         updateLeaderboard()
