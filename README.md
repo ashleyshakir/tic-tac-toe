@@ -43,6 +43,7 @@ Your classic tic tac toe game! Player one plays X and player 2 plays O. Each pla
 ### Gold
 
 - As a user, I can refresh or exit the page and still see the leaderboard stats when reopening the game
+- As a user, I can choose to play in single player mode against the computer
 
 ## Approach
 
@@ -270,4 +271,3 @@ if(savedTopPlayers){
 ## Future Steps
 
 - AI integration
-- Responsive

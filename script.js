@@ -80,8 +80,9 @@ function createBoard(){
  * display menu screen elements
  */
 function menuScreen(){
-    // display correct title
+    // display correct title and size
     title.innerText = "TIC TAC TOE"
+    title.style.fontSize = "60px"
     // set the display element for the main menu form to flex
     form.style.display = "flex"
     // clear the input fields
@@ -178,7 +179,7 @@ function play(e) {
     e.target.appendChild(display)
     // if it is the cross player's turn then change the square color to purple and switch to circle's turn
     // else - if it is the circle player's turn then change sqaure color to blue and switch to cross's turn
-    if(playerTurn === "cross"){
+    if (playerTurn === "cross"){
         e.target.style.backgroundColor = "#C6A3E3"
         playerTurn = "circle"
         gameInfo.innerText = `${playerTwoObj.name}'s turn`
@@ -235,7 +236,7 @@ function checkForWinner(playerTurn){
     ]
     // allows for dynamic programming - each time the checkForWinner function is called - playerTurn will be equal to whatever it wasn't the last time it was called
     // set the winner name equal to the player who just took their turn
-    if(playerTurn === "cross"){
+    if (playerTurn === "cross") {
         playerTurn = "circle" 
         winnerName = playerTwoObj.name
     } else {
@@ -255,16 +256,16 @@ function checkForWinner(playerTurn){
             winnerFound = true
             // update win count
             let playerIndex = playerStats[0].indexOf(winnerName)
-            if(winnerName === playerOneObj.name && winnerName !== ""){
+            if (winnerName === playerOneObj.name && winnerName !== ""){
                 playerStats[1][playerIndex] += 1
-            } else if(winnerName === playerTwoObj.name && winnerName !== ""){
+            } else if (winnerName === playerTwoObj.name && winnerName !== ""){
                 playerStats[1][playerIndex] += 1
             } 
             return 
         }
     })
     // if turn count is 9 (every square has been clicked) and winnerFound is false then display it is a tie, remove event listener from all squares and call resetGame function
-    if(turnCount === 9 && !winnerFound){
+    if (turnCount === 9 && !winnerFound){
         gameInfo.innerText = "It's a tie!"
         allSquares.forEach(square => square.removeEventListener("click", play))
         winnerName = ""
@@ -309,6 +310,7 @@ function openLeaderboard(){
     leaderboard.style.display = "flex"
     // hide main menu
     form.style.display = "none"
+    title.style.fontSize = "48px"
     title.innerText = "LEADERBOARD" 
     returnButton.style.display = "flex"
 }
@@ -316,7 +318,7 @@ function openLeaderboard(){
  * update leaderboard elements
  */
 function updateLeaderboard(){
-    // // clears the board 
+    // clears the board 
     const allNames = document.querySelectorAll(".name")
     const allCounts = document.querySelectorAll(".win-count")
     allNames.forEach(name => {
