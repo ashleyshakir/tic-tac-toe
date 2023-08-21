@@ -272,8 +272,8 @@ function checkForWinner(playerTurn){
             winSound.play()
             gameInfo.innerText = `${winnerName} Wins!!!`
             allSquares.forEach(square => square.removeEventListener("click", play))
-            setTimeout(resetGame,2000)
             winnerFound = true
+            setTimeout(resetGame,2000)
             // update win count
             let playerIndex = playerStats[0].indexOf(winnerName)
             if (winnerName === playerOneObj.name && winnerName !== ""){
@@ -298,6 +298,7 @@ function checkForWinner(playerTurn){
  * reset the game based on user input 
  */
 function resetGame() {
+    choicesDiv.innerHTML = "" 
     gameInfo.innerText = "Wanna play again?"
     const yes = document.createElement("p")
     yes.innerText = "Yes"
