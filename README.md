@@ -2,6 +2,13 @@
 
 Your classic tic tac toe game! Player one plays X and player 2 plays O. Each player takes turns placing their marks on a grid of three-by-three squares. If a player gets three marks in a row horizontally, vertically, or diagonally, then that player wins the game!
 
+## Features
+
+- Single Player mode allows you to play against the computer
+- Leaderboard tracks player names and win counts
+- Leaderboard stats save to local storage
+- Sound and color effects contribute to overall user experience
+
 ## Screenshots
 
 | Menu Screen                                                       | Gameboard                                                      | Leaderboard                                                       |
@@ -17,6 +24,7 @@ Your classic tic tac toe game! Player one plays X and player 2 plays O. Each pla
   - Wireframing and Flowchart: [Figma](https://www.figma.com)
   - Icons: [flaticon](https://www.flaticon.com/)
   - Fonts: [Google Fonts](https://fonts.google.com/)
+  - Sounds: [Pixabay](https://pixabay.com/sound-effects/)
 
 ## User Stories and Wireframes
 
@@ -267,6 +275,10 @@ if(savedTopPlayers){
 ```
 
 ## Acknowledgments
+
+Cancel icons created by [Freepik](https://www.flaticon.com/free-icons/cancel) - Flaticon
+Letter o icons created by [yukyik](https://www.flaticon.com/free-icons/letter-o) - Flaticon
+Sound effects by [UNIVERSFIELD](https://pixabay.com/users/universfield-28281460/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=124464) - Pixabay
 
 ## Future Steps
 
