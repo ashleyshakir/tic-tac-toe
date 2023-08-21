@@ -276,9 +276,9 @@ if(savedTopPlayers){
 
 ## Acknowledgments
 
-Cancel icons created by [Freepik](https://www.flaticon.com/free-icons/cancel) - Flaticon
-Letter o icons created by [yukyik](https://www.flaticon.com/free-icons/letter-o) - Flaticon
-Sound effects by [UNIVERSFIELD](https://pixabay.com/users/universfield-28281460/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=124464) - Pixabay
+- Cancel icons created by [Freepik](https://www.flaticon.com/free-icons/cancel) - Flaticon
+- Letter o icons created by [yukyik](https://www.flaticon.com/free-icons/letter-o) - Flaticon
+- Sound effects by [UNIVERSFIELD](https://pixabay.com/users/universfield-28281460/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=124464) - Pixabay
 
 ## Future Steps
 
